@@ -30,6 +30,10 @@
     .city {
       align-content: center;
     }
+
+    .html {
+      background-color: rgb(0, 179, 255);
+    }
   </style>
 </head>
 
@@ -42,7 +46,7 @@
 </section>
 
 <body>
-
+  <!--City Search Column-->
   <div class="columns is-multiline">
     <div class="column is-3">
       <form class="box">
@@ -55,8 +59,10 @@
     
         <button class="button" id="searchbtn">Search</button>
         <button class="button" id="clearbtn">Clear History</button>
+        <form id="history"></form>
       </form>
     </div>
+    <!--City Display Column-->
     <div class="column is-9">
       <div class="box">
         <h2 id="city-name" class="city"></h2>
@@ -67,7 +73,39 @@
       </div>
     </div>
   </div>
-
+  <!--5 Day Forecast Column-->
+  <div class="columns is-mobile is-multiline is-centered">
+    <div class="column is-narrow">
+      <p class="bd-notification is-primary">
+        <code class="html is-hidden"></code><br>
+      
+      </p>
+    </div>
+    <div class="column is-narrow">
+      <p class="bd-notification is-primary">
+        <code class="html is-hidden"></code><br>
+        
+      </p>
+    </div>
+    <div class="column is-narrow">
+      <p class="bd-notification is-primary">
+        <code class="html is-hidden"></code><br>
+        
+      </p>
+    </div>
+    <div class="column is-narrow">
+      <p class="bd-notification is-primary">
+        <code class="html is-hidden"></code><br>
+        
+      </p>
+    </div>
+    <div class="column is-narrow">
+      <p class="bd-notification is-primary">
+        <code class="html is-hidden"></code><br>
+        
+      </p>
+    </div>
+  </div>
   <!--add the weather API link-->
 </body>
 
