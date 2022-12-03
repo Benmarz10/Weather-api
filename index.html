@@ -1,12 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5 Day Forecast</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <!--Add the Weather API link-->
+  <title>5 Day Forecast</title>
+  <style>
+    .box {
+      max-width: 100%;
+    }
+
+    .hero {
+      align-items: center;
+      background-color: rgb(0, 179, 255);
+    }
+
+    .title {
+      color: white;
+    }
+
+    .button {
+      background-color:rgb(0, 179, 255);
+      color: white;
+    }
+
+    .city {
+      align-content: center;
+    }
+  </style>
 </head>
+
+<section class="hero">
+  <div class="hero-body">
+    <p class="title">
+      Weather Dashboard
+    </p>
+  </div>
+</section>
+
 <body>
+
+  <div class="columns is-multiline">
+    <div class="column is-3">
+      <form class="box">
+        <div class="field">
+          <label class="label">Search for a city</label>
+          <div class="control">
+            <input class="input" placeholder="e.g. Minneapolis">
+          </div>
+        </div>
     
+        <button class="button" id="searchbtn">Search</button>
+        <button class="button" id="clearbtn">Clear History</button>
+      </form>
+    </div>
+    <div class="column is-9">
+      <div class="box">
+        <h2 id="city-name" class="city"></h2>
+        <p id="temp"></p>
+        <p id="humidity"></p>
+        <p id="wind"></p>
+        <p id="uv-index"></p>
+      </div>
+    </div>
+  </div>
+
+  <!--add the weather API link-->
 </body>
+
 </html>
