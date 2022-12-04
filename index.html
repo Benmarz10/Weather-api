@@ -53,7 +53,7 @@
         <div class="field">
           <label class="label">Search for a city</label>
           <div class="control">
-            <input class="input" placeholder="e.g. Minneapolis">
+            <input id="city" class="input" placeholder="e.g. Minneapolis">
           </div>
         </div>
     
@@ -64,7 +64,7 @@
     </div>
     <!--City Display Column-->
     <div class="column is-9">
-      <div class="box">
+      <div class="box" id="today">
         <h2 id="city-name" class="city"></h2>
         <p id="temp"></p>
         <p id="humidity"></p>
@@ -74,7 +74,7 @@
     </div>
   </div>
   <!--5 Day Forecast Column-->
-  <div class="columns is-mobile is-multiline is-centered">
+  <div id="fiveday-forecast" class="columns is-mobile is-multiline is-centered">
     <div class="column is-narrow">
       <p class="bd-notification is-primary">
         <code class="html is-hidden"></code><br>
