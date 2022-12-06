@@ -51,7 +51,7 @@ function initPage() {
             FivedayFC(cityName);
           });
       })
-    //5day forcast function - not working
+    //5day forcast function - not appending
     function FivedayFC(response) {
       var cityID = response;
       var FCUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&appid=" + APIkey;
