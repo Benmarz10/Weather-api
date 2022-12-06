@@ -16,21 +16,21 @@ function initPage() {
 
   //function for todays weather
   function Getweather(cityName) {
-    let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIkey;
+    let queryUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIkey;
     axios.get(queryUrl)
       .then(function (response) {
 
         const todaysDate = dayjs();
         $("#cityname").text(todaysDate.format('MMM D, YYYY'));
         var currenticon = response.data.weather[0].icon;
-        weathericon.setAttribute("src", "https://openweathermap.org/img/wn/" + currenticon + "@2x.png");
+        weathericon.setAttribute("src", "http://openweathermap.org/img/wn/" + currenticon + "@2x.png");
         tempElement.innerHTML = "Temperature: " + k2f(response.data.main.temp) + "&#176F";
         //humidityElement.innerHTML = "Humidity: " + response.data.humidity + "%"; - not working
         windElement.innerHTML = "Wind speed: " + response.data.wind.speed + " MPH";
 
         var lon = response.data.coord.lon;
         var lat = response.data.coord.lat;
-        var UVqueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIkey + "&cnt=1";
+        var UVqueryURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIkey + "&cnt=1";
         axios.get(UVqueryURL)
           .then(function (response) {
             var UVindex = document.createElement("span");
@@ -54,7 +54,7 @@ function initPage() {
     //5day forcast function - not appending
     function FivedayFC(response) {
       var cityID = response;
-      var FCUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&appid=" + APIkey;
+      var FCUrl = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&appid=" + APIkey;
       axios.get(FCUrl)
         .then(function (response) {
           var fivedayelement = [];
@@ -71,7 +71,7 @@ function initPage() {
             newDoW.attr("style", "font-weight: 600")
             var newdate = $("<div>");
             newdate.text((moment(fivedayelement[f].dt_txt).format("MM/DD/YYYY")));
-            var newicon = $("<img>").attr("src", "https://openweather.org/img/wn/" + fivedayelement[f].weather[0].icon + "@2x.png")
+            var newicon = $("<img>").attr("src", "http://openweather.org/img/wn/" + fivedayelement[f].weather[0].icon + "@2x.png")
             var newtemp = $("<div>");
             newtemp.text((fivedayelement[f].main.temp.toFixed()) + "°");
             var newhumidity = $("<div>");
