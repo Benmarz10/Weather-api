@@ -6,6 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
+  integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
+  crossorigin="anonymous"></script>
+
   <!--Add the Weather API link-->
   <title>5 Day Forecast</title>
   <style>
@@ -31,9 +37,6 @@
       align-content: center;
     }
 
-    .html {
-      background-color: rgb(0, 179, 255);
-    }
   </style>
 </head>
 
@@ -74,37 +77,29 @@
       </div>
     </div>
   </div>
-  <!--5 Day Forecast Column   Change to a Container with sections in it-->
-  <div class="columns is-mobile is-multiline is-centered">
-    <div class="column is-narrow">
-      <p class="bd-notification is-primary">
-        <code id="fiveday-forecast" class="html is-hidden"></code><br>
-      
-      </p>
+  <!--5 Day Forecast Column/// Change to a section with container in it-->
+  <    <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <article class="tile is-child" style="text-align:center">
+        <p class="subtitle" style="font-weight: 600">5 Day Forecast</p>
+      </article>
     </div>
-    <div class="column is-narrow">
-      <p class="bd-notification is-primary">
-        <code id="fiveday-forecast" class="html is-hidden"></code><br>
-        
-      </p>
+  </div>
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <article class="tile is-child box" id="day1" style="text-align:center"></article>
     </div>
-    <div id="fiveday-forecast" class="column is-narrow">
-      <p class="bd-notification is-primary">
-        <code id="fiveday-forecast" class="html is-hidden"></code><br>
-        
-      </p>
+    <div class="tile is-parent">
+      <article class="tile is-child box" id="day2" style="text-align:center"></article>
     </div>
-    <div id="fiveday-forecast" class="column is-narrow">
-      <p class="bd-notification is-primary">
-        <code id="fiveday-forecast" class="html is-hidden"></code><br>
-        
-      </p>
+    <div class="tile is-parent">
+      <article class="tile is-child box" id="day3" style="text-align:center"></article>
     </div>
-    <div id="fiveday-forecast" class="column is-narrow">
-      <p class="bd-notification is-primary">
-        <code id="fiveday-forecast" class="html is-hidden"></code><br>
-        
-      </p>
+    <div class="tile is-parent">
+      <article class="tile is-child box" id="day4" style="text-align:center"></article>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child box" id="day5" style="text-align:center"></article>
     </div>
   </div>
   <!--add the weather API link-->

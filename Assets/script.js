@@ -2,12 +2,10 @@ function initPage() {
   var cityElement = document.getElementById("city");
   var searchElement = document.getElementById("searchbtn");
   var clearElement = document.getElementById("clearbtn");
-  const nameElement = document.getElementById("cityname");
   var tempElement = document.getElementById("temp");
   var humidityElement = document.getElementById("humdity");
   var windElement = document.getElementById("wind");
   var UVElement = document.getElementById("uv-index");
-  var forecastElement = document.getElementById("fiveday-forecast");
   var weathericon = document.getElementById("weather-icon")
   var historyElement = document.getElementById("history");
   var history = JSON.parse(localStorage.getItem("search")) || [];
@@ -22,24 +20,21 @@ function initPage() {
     axios.get(queryUrl)
       .then(function (response) {
 
-        const todaysDate = new Date(response.dt * 1000);
-        const day = todaysDate.getDate();
-        const month = todaysDate.getMonth() + 1;
-        const year = todaysDate.getFullYear();
-        nameElement.innerHTML = response.name + " (" + month + "/" + day + "/" + year + ") ";
+        const todaysDate = dayjs();
+        $("#cityname").text(todaysDate.format('MMM D, YYYY'));
         var currenticon = response.data.weather[0].icon;
         weathericon.setAttribute("src", "https://openweathermap.org/img/wn/" + currenticon + "@2x.png");
         tempElement.innerHTML = "Temperature: " + k2f(response.data.main.temp) + "&#176F";
-        //humidityElement.innerHTML = "Humidity: " + response.data.main.humidity + "%";
+        //humidityElement.innerHTML = "Humidity: " + response.data.humidity + "%"; - not working
         windElement.innerHTML = "Wind speed: " + response.data.wind.speed + " MPH";
 
         var lon = response.data.coord.lon;
         var lat = response.data.coord.lat;
-        var UVqueryURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIkey + "&cnt=1";
+        var UVqueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIkey + "&cnt=1";
         axios.get(UVqueryURL)
           .then(function (response) {
             var UVindex = document.createElement("span");
-        
+
             if (response.data[0].value < 4) {
               UVindex.setAttribute("class", "has-background-success");
             }
@@ -53,41 +48,41 @@ function initPage() {
             UVindex.innerHTML = response.data[0].value;
             UVElement.innerHTML = "UV Index: ";
             UVElement.append(UVindex);
+            FivedayFC(cityName);
           });
-        //5day forcast function
-        var cityname = response.data.id;
-        var fivedayqueryURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityname + "&appid=" + APIkey;
-        axios.get(fivedayqueryURL)
-          .then(function (response) {
-            forecastElement.classList.remove("is-hidden");
-            var fivedayelement = document.querySelectorAll(".forecast");
-            for (i = 0; i < fivedayelement.length; i++) {
-              fivedayelement[i].innerHTML = "";
-              var fcindex = i * 8 + 4;
-              var fcdate = new Date(response.data.list[fcindex].dt * 1000);
-              var fcday = fcdate.getDate();
-              var fcmonth = fcdate.getMonth();
-              var fcyear = fcdate.getFullYear();
-              var fcdatele = document.createElement("p");
-              fcdatele.setAttribute("class", "mt-3 mb-0 fc-date");
-              fcdatele.innerHTML = fcmonth + "/" + fcday + "/" + fcyear;
-              fcdatele[i].append(fcdatele);
-              //add icon functions
-              var fcweatherele = document.createElement("img");
-              fcweatherele.setAttribute("src", "https://openweathermap.org/img/wn/" + response.data.list[fcindex].weather[0].icon + "@2x.png");
-              fcweatherele.setAttribute("alt", response.data.list[fcindex].weather[0].description);
-              fivedayelement[i].append(fcweatherele);
-              var fctemp = document.createElement("p");
-              fctemp.innerHTML = "Temp: " + k2f(response.data.list[fcindex].main.temp) + " &#176F";
-              fivedayelement[i].append(fctemp);
-              var fchumidity = document.createElement("p");
-              fchumidity.innerHTML = "Humidity: " + response.data.list[fcindex].main.humidity + "%";
-              fivedayelement[i].append(fchumidity);
-              console.log("fuck me", fivedayqueryURL)
-            }
-          })
       })
+    //5day forcast function - not working
+    function FivedayFC(response) {
+      var cityID = response;
+      var FCUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityID + "&appid=" + APIkey;
+      axios.get(FCUrl)
+        .then(function (response) {
+          var fivedayelement = [];
+          for (var i = 0; i < response.length; i++) {
+            var hour = (response.list[i].dt_txt.split(" "))[1];
+            if (hour === "16:00:00") {
+              fivedayelement.push(response.list[i])
+            }
+          }
+          for (var f = 0; f < fivedayelement.length; f++) {
+            $("#day" + (f + 1)).empty();
+            var newDoW = $("<div>");
+            newDoW.text(moment(fivedayelement[f].dt_txt).format("dddd"));
+            newDoW.attr("style", "font-weight: 600")
+            var newdate = $("<div>");
+            newdate.text((moment(fivedayelement[f].dt_txt).format("MM/DD/YYYY")));
+            var newicon = $("<img>").attr("src", "https://openweather.org/img/wn/" + fivedayelement[f].weather[0].icon + "@2x.png")
+            var newtemp = $("<div>");
+            newtemp.text((fivedayelement[f].main.temp.toFixed()) + "°");
+            var newhumidity = $("<div>");
+            newhumidity.text(fivedayelement[f].main.humidity + "% Humdity")
+            $("#day" + (f + 1)).append(newDoW, newdate, newicon, newtemp, newhumidity);
+          }
+        })
+    }
   }
+
+
   //local storage functions
   searchElement.addEventListener("click", function () {
     var clickedsearch = cityElement.value;
@@ -101,8 +96,10 @@ function initPage() {
     localStorage.clear();
     history = [];
     renderhistory();
-  })
+    Getweather(cityName);
 
+  })
+  //convert to F
   function k2f(K) {
     return Math.floor((K - 273.15) * 1.8 + 32);
   }
